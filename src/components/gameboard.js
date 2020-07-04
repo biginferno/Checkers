@@ -132,6 +132,62 @@ export default class Gameboard extends Component {
         }
         return color;
     }
+
+    calculateTileArrayPosition(){
+        let currentTile = this.state.currentTile;
+        return((this.state.size * currentTile.getRow()) + currentTile.getColumn());
+    }
+    highlightMoevableTile(position, tile_position, board_size){
+        let tile_array  = this.state.tile_arrays;
+        //position is related to top_left(0), top_right(1), bottom_left(2), bottom_right(3)
+        //tile position = ((8 * row) + column) will give the position in the tile array to change
+        //must also check if the tile is occupied
+        switch (position) {
+            
+            case 0:
+                //Up one row back one column
+                calculated_position = tile_position - 9;
+                //top left on board
+                if(!(calculated_position < 0 || calculated_position >= board_size)){
+                    //Change tile in array 
+                    tile_array[calculated_position].setBackground(true);
+                }
+                break;
+            case 1:
+                //Up one row forward one column
+                calculated_position = tile_position -7;
+                //top left on board
+                if(!(calculated_position < 0 || calculated_position >= board_size)){
+                    //Change tile in array 
+                    tile_array[calculated_position].setBackground(true);
+                }
+                break;
+            case 2:
+                //Down one row back one column
+                calculated_position = tile_position + 7;
+                //top left on board
+                if(!(calculated_position < 0 || calculated_position >= board_size)){
+                    //Change tile in array 
+                    tile_array[calculated_position].setBackground(true);
+                }
+                break;
+            case 3:
+                //Down one row forward one column
+                calculated_position = tile_position + 9;
+                //top left on board
+                if(!(calculated_position < 0 || calculated_position >= board_size)){
+                    //Change tile in array 
+                    tile_array[calculated_position].setBackground(true);
+                }
+                break;
+            default:
+                //No real default situation
+                break;
+        }
+        this.setState({
+            tile_arrays:tile_array
+        })
+    }
     componentDidUpdate(prevProps,prevState,snapshot){
         if(prevState.tile_arrays !== this.state.tile_arrays){
             this.refreshBoard();
@@ -166,16 +222,21 @@ export default class Gameboard extends Component {
 
         let thisTileRow = tile.getRow();
         let thisTileColumn = tile.getColumn();
+        let board_size = Math.pow(this.state.size);
         //We haven't chosen a tile to move yet
         if(chosenTile === null){
             //We should highlight the chosenTile and the moveable spots
 
             //on rerender this will highlight the tile
             tile.setHighlight(true);
+            
             this.setState({
                 chosenTile:tile
             });
-            
+            let tile_position = calculatedTileArrayPosition();
+            for(let  i = 0; i < 4; i++){
+                this.highlightMoevableTile(i, tile_position, board_size)
+            }
 
 
         }
@@ -187,6 +248,8 @@ export default class Gameboard extends Component {
                 //1)Update the array of tiles to be rerendered with the new move
                 //2)Unhighlight the moveable spots and the tile
                 //3)Update state to disallow movement again
+
+
             }
             //Else the spot is not moveable: Two Options for implementation
                 //1)Deselect the currenTile and select the new spot

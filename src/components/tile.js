@@ -8,6 +8,7 @@ export class Tile {
         this.isGamePiece = gamePiece;
         this.team = team;
         this.highlight = false;
+        this.background = true;
         
     }
 
@@ -40,6 +41,12 @@ export class Tile {
     }
     setHighlight(bool){
         this.highlight = bool;
+    }
+    getBackground(){
+        return this.background;
+    }
+    setBackground(bool){
+        this.background = bool;
     }
 }
 
