@@ -1,0 +1,27 @@
+.checkerboard {
+    width:600px;
+    height:600px;
+    border:solid;
+}
+
+.color-change-player1 {
+    width:200px;
+    height:200px;
+    float:left;
+    background:red;
+    text-align:left;
+}
+.color-change-player2 {
+    width:200px;
+    height:200px;
+    float:left;
+    background:blue;
+    text-align:left;
+}
+.shape-change {
+    width:200px;
+    height:200px;
+    float:left;
+    background:red;
+    text-align:left;
+}
